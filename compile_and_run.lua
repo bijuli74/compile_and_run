@@ -7,13 +7,20 @@ function M.compile_and_run()
 
   if filetype == "cpp" then
     vim.cmd("w")
-    vim.cmd('vsp term://pwsh -c "g++ ' .. filename .. " -o " .. basename .. " && ./" .. basename .. '"')
+    vim.cmd(
+      "vsp term://g++ -std=c++20 -Wshadow -Wall"
+        .. filename
+        .. " -o "
+        .. basename
+        .. "-O2 -Wno-unused-result && ./"
+        .. basename
+    )
   elseif filetype == "java" then
     vim.cmd("w")
-    vim.cmd('vsp term://pwsh -c "javac ' .. filename .. " && java " .. basename .. '"')
+    vim.cmd("vsp term://javac " .. filename .. " && java " .. basename)
   elseif filetype == "go" then
     vim.cmd("w")
-    vim.cmd('vsp term://pwsh -c "go run ' .. filename .. '"')
+    vim.cmd("vsp term://go run " .. filename)
   else
     print("Unsupported filetype: " .. filetype)
   end
